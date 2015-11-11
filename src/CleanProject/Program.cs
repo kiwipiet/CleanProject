@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using CmdLine;
@@ -22,24 +21,6 @@ namespace CleanProject
     /// </remarks>
     internal class Program
     {
-        #region Public Methods
-
-        /// <summary>
-        ///     The find window.
-        /// </summary>
-        /// <param name="sClassName">
-        ///     The s class name.
-        /// </param>
-        /// <param name="sAppName">
-        ///     The s app name.
-        /// </param>
-        /// <returns>
-        /// </returns>
-        [DllImport("user32.dll")]
-        public static extern IntPtr FindWindow(string sClassName, string sAppName);
-
-        #endregion
-
         #region Constants and Fields
 
         /// <summary>
@@ -170,11 +151,11 @@ namespace CleanProject
         /// </summary>
         private static void EnableWindowsMode()
         {
-            consoleWindow = FindWindow(null, CleanOptions.Title);
+            consoleWindow = NativeMethods.FindWindow(null, CleanOptions.Title);
             if (consoleWindow != IntPtr.Zero)
             {
                 // Hide the console Window
-                ShowWindow(consoleWindow, 0);
+                NativeMethods.ShowWindow(consoleWindow, 0);
             }
 
             winTextOut = new StringWriter(WinStringBuilder);
@@ -194,27 +175,9 @@ namespace CleanProject
         private static string GetLongDirectoryName(string directory)
         {
             var sb = new StringBuilder(255);
-            GetLongPathName(directory, sb, sb.Capacity);
+            NativeMethods.GetLongPathName(directory, sb, sb.Capacity);
             return sb.ToString();
         }
-
-        /// <summary>
-        ///     The get long path name.
-        /// </summary>
-        /// <param name="path">
-        ///     The path.
-        /// </param>
-        /// <param name="pszPath">
-        ///     The psz path.
-        /// </param>
-        /// <param name="cchPath">
-        ///     The cch path.
-        /// </param>
-        /// <returns>
-        ///     The get long path name.
-        /// </returns>
-        [DllImport("kernel32.dll")]
-        private static extern int GetLongPathName(string path, StringBuilder pszPath, int cchPath);
 
         /// <summary>
         ///     The get temp directories.
@@ -229,6 +192,7 @@ namespace CleanProject
         /// <summary>
         ///     The main.
         /// </summary>
+        [STAThread]
         private static void Main()
         {
             ParseCommandLine();
@@ -337,21 +301,6 @@ namespace CleanProject
                 }
             }
         }
-
-        /// <summary>
-        ///     The show window.
-        /// </summary>
-        /// <param name="hWnd">
-        ///     The h wnd.
-        /// </param>
-        /// <param name="nCmdShow">
-        ///     The n cmd show.
-        /// </param>
-        /// <returns>
-        ///     The show window.
-        /// </returns>
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         #endregion
     }
