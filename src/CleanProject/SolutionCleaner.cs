@@ -1,9 +1,9 @@
-﻿namespace CleanProject
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace CleanProject
+{
     /// <summary>
-    ///   Cleans solutions
+    ///     Cleans solutions
     /// </summary>
     internal class SolutionCleaner
     {

@@ -1,31 +1,30 @@
-﻿namespace CleanProject
+﻿using System.Collections.Generic;
+using CmdLine;
+
+namespace CleanProject
 {
-    using System.Collections.Generic;
-
-    using CmdLine;
-
     /// <summary>
-    ///   Options for the CleanProject command
+    ///     Options for the CleanProject command
     /// </summary>
     [CommandLineArguments(Program = "CleanProject", Title = Title, Description = Description)]
     public class CleanOptions
     {
+        #region Constructors and Destructors
+
+        public CleanOptions()
+        {
+            Directories = new List<string>();
+            RemoveDirectories = new List<string>();
+            RemoveFiles = new List<string>();
+        }
+
+        #endregion
+
         #region Constants and Fields
 
         public const string Description = "Cleans binaries, test results and other debris from your project";
 
         public const string Title = "Clean Project";
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        public CleanOptions()
-        {
-            this.Directories = new List<string>();
-            this.RemoveDirectories = new List<string>();
-            this.RemoveFiles = new List<string>();
-        }
 
         #endregion
 

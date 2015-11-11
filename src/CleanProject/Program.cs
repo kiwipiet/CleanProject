@@ -1,62 +1,37 @@
-﻿namespace CleanProject
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows.Forms;
+using CmdLine;
+
+namespace CleanProject
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Runtime.InteropServices;
-    using System.Text;
-    using System.Windows.Forms;
-
-    using CmdLine;
-
     /// <summary>
-    /// Program to clean solutions
+    ///     Program to clean solutions
     /// </summary>
     /// <remarks>
-    /// Setup Visual Studio with an external tool
-    ///   Title: Clean, Remove Source Bindings and Zip Solution
-    ///   Command: CleanProject.exe
-    ///   Arguments: /D:$(SolutionDir) /Z /R
-    ///   Use Output Window
+    ///     Setup Visual Studio with an external tool
+    ///     Title: Clean, Remove Source Bindings and Zip Solution
+    ///     Command: CleanProject.exe
+    ///     Arguments: /D:$(SolutionDir) /Z /R
+    ///     Use Output Window
     /// </remarks>
     internal class Program
     {
-        #region Constants and Fields
-
-        /// <summary>
-        /// The options.
-        /// </summary>
-        internal static CleanOptions Options;
-
-        /// <summary>
-        /// The win string builder.
-        /// </summary>
-        private static readonly StringBuilder WinStringBuilder = new StringBuilder();
-
-        /// <summary>
-        /// The console window.
-        /// </summary>
-        private static IntPtr consoleWindow;
-
-        /// <summary>
-        /// The win text out.
-        /// </summary>
-        private static TextWriter winTextOut;
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
-        /// The find window.
+        ///     The find window.
         /// </summary>
         /// <param name="sClassName">
-        /// The s class name.
+        ///     The s class name.
         /// </param>
         /// <param name="sAppName">
-        /// The s app name.
+        ///     The s app name.
         /// </param>
         /// <returns>
         /// </returns>
@@ -65,16 +40,40 @@
 
         #endregion
 
+        #region Constants and Fields
+
+        /// <summary>
+        ///     The options.
+        /// </summary>
+        internal static CleanOptions Options;
+
+        /// <summary>
+        ///     The win string builder.
+        /// </summary>
+        private static readonly StringBuilder WinStringBuilder = new StringBuilder();
+
+        /// <summary>
+        ///     The console window.
+        /// </summary>
+        private static IntPtr consoleWindow;
+
+        /// <summary>
+        ///     The win text out.
+        /// </summary>
+        private static TextWriter winTextOut;
+
+        #endregion
+
         #region Methods
 
         /// <summary>
-        /// The write verbose message.
+        ///     The write verbose message.
         /// </summary>
         /// <param name="format">
-        /// The format.
+        ///     The format.
         /// </param>
         /// <param name="args">
-        /// The args.
+        ///     The args.
         /// </param>
         internal static void WriteVerboseMessage(string format, params object[] args)
         {
@@ -85,7 +84,7 @@
         }
 
         /// <summary>
-        /// The confirm options.
+        ///     The confirm options.
         /// </summary>
         private static void ConfirmOptions()
         {
@@ -119,7 +118,7 @@
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Warning,
                         MessageBoxDefaultButton.Button2,
-                        (MessageBoxOptions)0x40000) == DialogResult.No)
+                        (MessageBoxOptions) 0x40000) == DialogResult.No)
                     {
                         Environment.Exit(0);
                     }
@@ -139,13 +138,13 @@
         }
 
         /// <summary>
-        /// The copy solution to temp dir.
+        ///     The copy solution to temp dir.
         /// </summary>
         /// <param name="directory">
-        /// The directory.
+        ///     The directory.
         /// </param>
         /// <returns>
-        /// A solution info
+        ///     A solution info
         /// </returns>
         private static SolutionInfo CopySolutionToTempDir(string directory)
         {
@@ -159,7 +158,7 @@
                 Console.WriteLine("Copying solution {0} to temporary directory", directory);
             }
 
-            var solutionInfo = new SolutionInfo { Directory = GetLongDirectoryName(directory) };
+            var solutionInfo = new SolutionInfo {Directory = GetLongDirectoryName(directory)};
 
             DirectoryHelper.CopyDirectory(directory, solutionInfo.TempPath, true, true);
 
@@ -167,7 +166,7 @@
         }
 
         /// <summary>
-        /// The enable windows mode.
+        ///     The enable windows mode.
         /// </summary>
         private static void EnableWindowsMode()
         {
@@ -183,13 +182,13 @@
         }
 
         /// <summary>
-        /// The get directories.
+        ///     The get directories.
         /// </summary>
         /// <returns>
         /// </returns>
         private static List<SolutionInfo> GetDirectories()
         {
-            return Options.Directories.Select(directory => new SolutionInfo { Directory = GetLongDirectoryName(directory) }).ToList();
+            return Options.Directories.Select(directory => new SolutionInfo {Directory = GetLongDirectoryName(directory)}).ToList();
         }
 
         private static string GetLongDirectoryName(string directory)
@@ -200,25 +199,25 @@
         }
 
         /// <summary>
-        /// The get long path name.
+        ///     The get long path name.
         /// </summary>
         /// <param name="path">
-        /// The path.
+        ///     The path.
         /// </param>
         /// <param name="pszPath">
-        /// The psz path.
+        ///     The psz path.
         /// </param>
         /// <param name="cchPath">
-        /// The cch path.
+        ///     The cch path.
         /// </param>
         /// <returns>
-        /// The get long path name.
+        ///     The get long path name.
         /// </returns>
         [DllImport("kernel32.dll")]
         private static extern int GetLongPathName(string path, StringBuilder pszPath, int cchPath);
 
         /// <summary>
-        /// The get temp directories.
+        ///     The get temp directories.
         /// </summary>
         /// <returns>
         /// </returns>
@@ -228,7 +227,7 @@
         }
 
         /// <summary>
-        /// The main.
+        ///     The main.
         /// </summary>
         private static void Main()
         {
@@ -275,7 +274,7 @@
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error,
                         MessageBoxDefaultButton.Button1,
-                        (MessageBoxOptions)0x40000);
+                        (MessageBoxOptions) 0x40000);
                 }
                 else
                 {
@@ -289,7 +288,7 @@
         }
 
         /// <summary>
-        /// The parse command line.
+        ///     The parse command line.
         /// </summary>
         private static void ParseCommandLine()
         {
@@ -319,7 +318,7 @@
         }
 
         /// <summary>
-        /// The show cleaning complete.
+        ///     The show cleaning complete.
         /// </summary>
         private static void ShowCleaningComplete()
         {
@@ -340,16 +339,16 @@
         }
 
         /// <summary>
-        /// The show window.
+        ///     The show window.
         /// </summary>
         /// <param name="hWnd">
-        /// The h wnd.
+        ///     The h wnd.
         /// </param>
         /// <param name="nCmdShow">
-        /// The n cmd show.
+        ///     The n cmd show.
         /// </param>
         /// <returns>
-        /// The show window.
+        ///     The show window.
         /// </returns>
         [DllImport("user32.dll")]
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);

@@ -1,13 +1,31 @@
-﻿namespace CleanProject
-{
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Text;
-    using System.Xml.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Xml.Linq;
 
+namespace CleanProject
+{
     internal class RemoveSourceControlBindings
     {
+        #region Constructors and Destructors
+
+        internal RemoveSourceControlBindings()
+        {
+            recursiveSearch = new RecursiveSearchHelper();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     Get or Set the temporal directory for process proposes
+        /// </summary>
+        internal string ProcessDirectory { get; set; }
+
+        #endregion
+
         #region Constants and Fields
 
         private const string EndGlobalSection = "EndGlobalSection";
@@ -18,27 +36,9 @@
 
         private const string SolutionPattern = "*.sln";
 
-        private readonly string[] bindingPattern = new[] { "*.vssscc", "*.vspscc", "*.scc" };
+        private readonly string[] bindingPattern = {"*.vssscc", "*.vspscc", "*.scc"};
 
         private readonly RecursiveSearchHelper recursiveSearch;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        internal RemoveSourceControlBindings()
-        {
-            this.recursiveSearch = new RecursiveSearchHelper();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        ///   Get or Set the temporal directory for process proposes
-        /// </summary>
-        internal string ProcessDirectory { get; set; }
 
         #endregion
 
@@ -46,23 +46,23 @@
 
         internal static void Clean(string directory)
         {
-            var scCleaner = new RemoveSourceControlBindings { ProcessDirectory = directory };
+            var scCleaner = new RemoveSourceControlBindings {ProcessDirectory = directory};
             scCleaner.Execute();
         }
 
         /// <summary>
-        ///   Remove Source Control Bindings according to a specified binding pattern.
+        ///     Remove Source Control Bindings according to a specified binding pattern.
         /// </summary>
         internal virtual void Execute()
         {
-            this.DeleteSourceControlFiles();
-            this.CleanSolutions();
-            this.CleanProjects();
+            DeleteSourceControlFiles();
+            CleanSolutions();
+            CleanProjects();
         }
 
         protected virtual void CleanProjects()
         {
-            var projects = this.recursiveSearch.GetFiles(this.ProcessDirectory, ProjectPattern);
+            var projects = recursiveSearch.GetFiles(ProcessDirectory, ProjectPattern);
 
             foreach (var projectFile in projects)
             {
@@ -72,7 +72,7 @@
 
                 foreach (var item in projectDocument.Elements())
                 {
-                    this.RemoveSccElements(item);
+                    RemoveSccElements(item);
                 }
                 var readOnly = FileHelper.TurnOffReadOnlyFlag(projectFile);
 
@@ -87,7 +87,7 @@
 
         protected virtual void CleanSolutions()
         {
-            var solutions = this.recursiveSearch.GetFiles(this.ProcessDirectory, SolutionPattern);
+            var solutions = recursiveSearch.GetFiles(ProcessDirectory, SolutionPattern);
 
             foreach (var solutionFile in solutions)
             {
@@ -115,9 +115,9 @@
         {
             var files = new List<string>();
 
-            foreach (var pattern in this.bindingPattern)
+            foreach (var pattern in bindingPattern)
             {
-                files.AddRange(this.recursiveSearch.GetFiles(this.ProcessDirectory, pattern));
+                files.AddRange(recursiveSearch.GetFiles(ProcessDirectory, pattern));
             }
 
             foreach (var file in files)
@@ -146,7 +146,7 @@
             {
                 foreach (var element in node.Elements())
                 {
-                    this.RemoveSccElements(element);
+                    RemoveSccElements(element);
                 }
             }
         }

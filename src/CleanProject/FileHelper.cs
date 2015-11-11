@@ -1,9 +1,9 @@
-﻿namespace CleanProject
-{
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
+namespace CleanProject
+{
     internal class FileHelper
     {
         #region Methods
@@ -53,15 +53,15 @@
         }
 
         /// <summary>
-        ///   Turns off the read only flag on a file.
+        ///     Turns off the read only flag on a file.
         /// </summary>
-        /// <param name = "file">
-        ///   The file to change.
+        /// <param name="file">
+        ///     The file to change.
         /// </param>
         /// <returns>
-        ///   Returns true if the read only flag was set.
+        ///     Returns true if the read only flag was set.
         /// </returns>
-        internal static bool TurnOffReadOnlyFlag(String file)
+        internal static bool TurnOffReadOnlyFlag(string file)
         {
             var retValue = false;
             var attribs = File.GetAttributes(file);
@@ -74,12 +74,12 @@
         }
 
         /// <summary>
-        ///   Turns on the read only flag for a file.
+        ///     Turns on the read only flag for a file.
         /// </summary>
-        /// <param name = "file">
-        ///   The file to change.
+        /// <param name="file">
+        ///     The file to change.
         /// </param>
-        internal static void TurnOnReadOnlyFlag(String file)
+        internal static void TurnOnReadOnlyFlag(string file)
         {
             var attribs = File.GetAttributes(file);
             File.SetAttributes(file, attribs | FileAttributes.ReadOnly);

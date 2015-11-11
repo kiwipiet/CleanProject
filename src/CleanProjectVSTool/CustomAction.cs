@@ -1,10 +1,9 @@
-﻿namespace CleanProjectVSTool
+﻿using System.IO;
+using Microsoft.Deployment.WindowsInstaller;
+using Microsoft.Win32;
+
+namespace CleanProjectVSTool
 {
-    using System.IO;
-
-    using Microsoft.Deployment.WindowsInstaller;
-    using Microsoft.Win32;
-
     public class CustomActions
     {
         #region Public Methods
@@ -20,17 +19,17 @@
             {
                 // The number has the value for the next tool 
                 // If there are 5 tools, the number will be 6
-                var numTools = (int)key.GetValue("ToolNumKeys", 0);
+                var numTools = (int) key.GetValue("ToolNumKeys", 0);
 
                 var tool = new ExternalTool
-                    {
-                        Args = "/D:$(SolutionDir) /Z /R",
-                        Command = Path.Combine(session["INSTALLLOCATION"], "CleanProject.exe"),
-                        Directory = string.Empty,
-                        Opt = 24,
-                        SourceKey = string.Empty,
-                        Title = "Clean, Remove Source Bindings and Zip Solution"
-                    };
+                {
+                    Args = "/D:$(SolutionDir) /Z /R",
+                    Command = Path.Combine(session["INSTALLLOCATION"], "CleanProject.exe"),
+                    Directory = string.Empty,
+                    Opt = 24,
+                    SourceKey = string.Empty,
+                    Title = "Clean, Remove Source Bindings and Zip Solution"
+                };
                 ExternalTool.Write(key, numTools, tool);
 
                 // Setup for the next tool
@@ -51,7 +50,7 @@
             {
                 // The number has the value for the next tool 
                 // If there are 5 tools, the number will be 6
-                ExternalTool.Remove(key, (int)key.GetValue("ToolNumKeys", 0));
+                ExternalTool.Remove(key, (int) key.GetValue("ToolNumKeys", 0));
             }
             session.Log("End RemoveCleanProjectTool");
             return ActionResult.Success;
@@ -69,22 +68,6 @@
         #region Constants and Fields
 
         private const string CleanProjectSig = "CLEAN-PROJECT";
-
-        #endregion
-
-        #region Properties
-
-        internal string Args { get; set; }
-
-        internal string Command { get; set; }
-
-        internal string Directory { get; set; }
-
-        internal string SourceKey { get; set; }
-
-        internal string Title { get; set; }
-
-        internal long Opt { get; set; }
 
         #endregion
 
@@ -112,18 +95,34 @@
 
         #endregion
 
+        #region Properties
+
+        internal string Args { get; set; }
+
+        internal string Command { get; set; }
+
+        internal string Directory { get; set; }
+
+        internal string SourceKey { get; set; }
+
+        internal string Title { get; set; }
+
+        internal long Opt { get; set; }
+
+        #endregion
+
         #region Methods
 
         internal static ExternalTool Read(RegistryKey key, int num)
         {
             var et = new ExternalTool
-                {
-                    Title = (string)key.GetValue(ToolTitle(num)),
-                    SourceKey = (string)key.GetValue(ToolSourceKey(num)),
-                    Directory = (string)key.GetValue(ToolDir(num)),
-                    Command = (string)key.GetValue(ToolCmd(num)),
-                    Args = (string)key.GetValue(ToolArg(num)),
-                };
+            {
+                Title = (string) key.GetValue(ToolTitle(num)),
+                SourceKey = (string) key.GetValue(ToolSourceKey(num)),
+                Directory = (string) key.GetValue(ToolDir(num)),
+                Command = (string) key.GetValue(ToolCmd(num)),
+                Args = (string) key.GetValue(ToolArg(num))
+            };
 
             return et;
         }

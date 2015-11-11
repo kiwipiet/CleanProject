@@ -1,13 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using CmdLine;
+using Ionic.Zip;
+
 namespace CleanProject
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-
-    using CmdLine;
-
-    using Ionic.Zip;
-
     internal class ZipHelper
     {
         internal static void ZipDirectories(IEnumerable<SolutionInfo> directories)
@@ -26,7 +24,7 @@ namespace CleanProject
                 var zipDirectory = Program.Options.ZipDirectory;
 
                 // No ZipDirectory provided
-                if (String.IsNullOrWhiteSpace(zipDirectory))
+                if (string.IsNullOrWhiteSpace(zipDirectory))
                 {
                     // Default to the parent folder of the solution
                     zipDirectory = Path.GetFullPath(Path.Combine(si.Directory, ".."));

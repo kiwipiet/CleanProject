@@ -1,11 +1,21 @@
-﻿namespace CleanProject
-{
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
+namespace CleanProject
+{
     internal class RecursiveSearchHelper
     {
+        #region Constructors and Destructors
+
+        internal RecursiveSearchHelper()
+        {
+            fileList = new List<string>();
+            excludeList = new List<string>();
+        }
+
+        #endregion
+
         #region Constants and Fields
 
         private readonly List<string> excludeList;
@@ -14,51 +24,41 @@
 
         #endregion
 
-        #region Constructors and Destructors
-
-        internal RecursiveSearchHelper()
-        {
-            this.fileList = new List<string>();
-            this.excludeList = new List<string>();
-        }
-
-        #endregion
-
         #region internal Methods
 
         internal string[] GetFiles(string initialDirectory, string filePattern)
         {
-            this.fileList.Clear();
+            fileList.Clear();
 
-            this.Search(initialDirectory, filePattern);
+            Search(initialDirectory, filePattern);
 
-            return this.fileList.ToArray();
+            return fileList.ToArray();
         }
 
         internal string[] GetFiles(string initialDirectory, string[] filePatterns, string[] excludePatterns)
         {
-            this.fileList.Clear();
-            this.excludeList.Clear();
+            fileList.Clear();
+            excludeList.Clear();
 
-            foreach (string filePattern in filePatterns)
+            foreach (var filePattern in filePatterns)
             {
-                this.Search(initialDirectory, filePattern);
+                Search(initialDirectory, filePattern);
             }
 
             if (excludePatterns != null)
             {
-                foreach (string excludePattern in excludePatterns)
+                foreach (var excludePattern in excludePatterns)
                 {
-                    this.SearchExclude(initialDirectory, excludePattern);
+                    SearchExclude(initialDirectory, excludePattern);
                 }
             }
 
-            foreach (var file in this.excludeList)
+            foreach (var file in excludeList)
             {
-                this.fileList.RemoveAll(s => s == file);
+                fileList.RemoveAll(s => s == file);
             }
 
-            return this.fileList.ToArray();
+            return fileList.ToArray();
         }
 
         #endregion
@@ -67,27 +67,27 @@
 
         private void Search(string initialDirectory, string filePattern)
         {
-            foreach (var file in Directory.GetFiles(initialDirectory, filePattern).Where(file => !this.fileList.Contains(file)))
+            foreach (var file in Directory.GetFiles(initialDirectory, filePattern).Where(file => !fileList.Contains(file)))
             {
-                this.fileList.Add(file);
+                fileList.Add(file);
             }
 
-            foreach (string item in Directory.GetDirectories(initialDirectory))
+            foreach (var item in Directory.GetDirectories(initialDirectory))
             {
-                this.Search(item, filePattern);
+                Search(item, filePattern);
             }
         }
 
         private void SearchExclude(string initialDirectory, string excludePattern)
         {
-            foreach (string file in Directory.GetFiles(initialDirectory, excludePattern).Where(file => !this.excludeList.Contains(file)))
+            foreach (var file in Directory.GetFiles(initialDirectory, excludePattern).Where(file => !excludeList.Contains(file)))
             {
-                this.excludeList.Add(file);
+                excludeList.Add(file);
             }
 
-            foreach (string item in Directory.GetDirectories(initialDirectory))
+            foreach (var item in Directory.GetDirectories(initialDirectory))
             {
-                this.SearchExclude(item, excludePattern);
+                SearchExclude(item, excludePattern);
             }
         }
 
