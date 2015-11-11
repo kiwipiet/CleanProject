@@ -1,10 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanProject", "CleanProject\CleanProject.csproj", "{22617EA8-B56D-453A-A324-FEFC877DA5FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6437A42-9981-4E3B-AC27-A924AA836335}"
 	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
 		ReadMe.txt = ReadMe.txt
 		version.cs = version.cs
 	EndProjectSection
@@ -14,7 +17,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanProjectVSTool", "CleanProjectVSTool\CleanProjectVSTool.csproj", "{7E49DADA-10E8-4E0A-B4F2-D9E4BDD19E8E}"
 EndProject
 Global
-	
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
