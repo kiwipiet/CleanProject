@@ -16,12 +16,12 @@
           <Component Id="RegistryEntries" Guid="c5186a6b-bd84-4259-9e74-4b5a1d5ae5b6">
             <RegistryKey Root="HKCR"
 										 Key="Folder\shell\cleanproject"
-							Action="createAndRemoveOnUninstall">
+							       ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
               <RegistryValue Type="string" Value="Clean, Remove Source Bindings and Zip Solution"/>
             </RegistryKey>
             <RegistryKey Root="HKCR"
 										 Key="Folder\shell\cleanproject\command"
-							Action="create">
+							       ForceCreateOnInstall="yes">
               <RegistryValue Type="string" Value="[INSTALLLOCATION]CleanProject /D:%1 /R /Z /W"/>
             </RegistryKey>
             <Environment Id="PATH" Name="PATH" Value="[INSTALLLOCATION]" Permanent="no" Part="last" Action="set" System="yes" />
