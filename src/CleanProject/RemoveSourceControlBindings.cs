@@ -8,25 +8,15 @@ namespace CleanProject
 {
     internal class RemoveSourceControlBindings
     {
-        #region Constructors and Destructors
-
         internal RemoveSourceControlBindings()
         {
             recursiveSearch = new RecursiveSearchHelper();
         }
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         ///     Get or Set the temporal directory for process proposes
         /// </summary>
         internal string ProcessDirectory { get; set; }
-
-        #endregion
-
-        #region Constants and Fields
 
         private const string EndGlobalSection = "EndGlobalSection";
 
@@ -39,10 +29,6 @@ namespace CleanProject
         private readonly string[] bindingPattern = {"*.vssscc", "*.vspscc", "*.scc"};
 
         private readonly RecursiveSearchHelper recursiveSearch;
-
-        #endregion
-
-        #region Methods
 
         internal static void Clean(string directory)
         {
@@ -74,13 +60,13 @@ namespace CleanProject
                 {
                     RemoveSccElements(item);
                 }
-                var readOnly = FileHelper.TurnOffReadOnlyFlag(projectFile);
+                var readOnly = projectFile.TurnOffReadOnlyFlag();
 
                 projectDocument.Save(projectFile);
 
                 if (readOnly)
                 {
-                    FileHelper.TurnOnReadOnlyFlag(projectFile);
+                    projectFile.TurnOnReadOnlyFlag();
                 }
             }
         }
@@ -99,13 +85,13 @@ namespace CleanProject
                 {
                     var tfs = GetTfsGlobalSection(solutionText);
 
-                    var readOnly = FileHelper.TurnOffReadOnlyFlag(solutionFile);
+                    var readOnly = solutionFile.TurnOffReadOnlyFlag();
 
                     File.WriteAllText(solutionFile, solutionText.Replace(tfs, null), Encoding.UTF8);
 
                     if (readOnly)
                     {
-                        FileHelper.TurnOnReadOnlyFlag(solutionFile);
+                        solutionFile.TurnOnReadOnlyFlag();
                     }
                 }
             }
@@ -150,7 +136,5 @@ namespace CleanProject
                 }
             }
         }
-
-        #endregion
     }
 }

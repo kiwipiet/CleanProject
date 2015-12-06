@@ -21,8 +21,6 @@ namespace CleanProject
     /// </remarks>
     internal class Program
     {
-        #region Constants and Fields
-
         /// <summary>
         ///     The options.
         /// </summary>
@@ -42,10 +40,6 @@ namespace CleanProject
         ///     The win text out.
         /// </summary>
         private static TextWriter winTextOut;
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         ///     The write verbose message.
@@ -131,7 +125,7 @@ namespace CleanProject
         {
             if (!Directory.Exists(directory))
             {
-                throw new ApplicationException(string.Format("Directory \"{0}\" does not exist", directory));
+                throw new ApplicationException($"Directory \"{directory}\" does not exist");
             }
 
             if (!Options.WindowsMode)
@@ -141,7 +135,7 @@ namespace CleanProject
 
             var solutionInfo = new SolutionInfo {Directory = GetLongDirectoryName(directory)};
 
-            DirectoryHelper.CopyDirectory(directory, solutionInfo.TempPath, true, true);
+            directory.CopyDirectory(solutionInfo.TempPath, true, true);
 
             return solutionInfo;
         }
@@ -221,11 +215,11 @@ namespace CleanProject
                     Console.WriteLine("Cleaning Solution Directory {0}", solutionInfo.WorkingPath);
                 }
 
-                SolutionCleaner.CleanDirectories(directories);
+                directories.CleanDirectories();
 
                 if (Options.ZipProject)
                 {
-                    ZipHelper.ZipDirectories(directories);
+                    directories.ZipDirectories();
                 }
             }
             catch (ApplicationException exception)
@@ -301,7 +295,5 @@ namespace CleanProject
                 }
             }
         }
-
-        #endregion
     }
 }

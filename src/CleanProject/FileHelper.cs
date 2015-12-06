@@ -4,11 +4,9 @@ using System.IO;
 
 namespace CleanProject
 {
-    internal class FileHelper
+    internal static class FileHelper
     {
-        #region Methods
-
-        internal static void DeleteFiles(string directory, params string[] searchPatterns)
+        internal static void DeleteFiles(this string directory, params string[] searchPatterns)
         {
             foreach (var searchPattern in searchPatterns)
             {
@@ -16,7 +14,7 @@ namespace CleanProject
             }
         }
 
-        internal static void DeleteFiles(string directory, string searchPattern)
+        internal static void DeleteFiles(this string directory, string searchPattern)
         {
             if (!Directory.Exists(directory))
             {
@@ -34,17 +32,17 @@ namespace CleanProject
                 }
                 catch (IOException ex)
                 {
-                    throw new ApplicationException(string.Format("Error removing file {0} - {1}", file, ex.Message), ex);
+                    throw new ApplicationException($"Error removing file {file} - {ex.Message}", ex);
                 }
             }
         }
 
-        internal static void DeleteFiles(string directory)
+        internal static void DeleteFiles(this string directory)
         {
             DeleteFiles(directory, "*");
         }
 
-        internal static void DeleteFiles(string directory, IEnumerable<string> searchPatterns)
+        internal static void DeleteFiles(this string directory, IEnumerable<string> searchPatterns)
         {
             foreach (var searchPattern in searchPatterns)
             {
@@ -61,7 +59,7 @@ namespace CleanProject
         /// <returns>
         ///     Returns true if the read only flag was set.
         /// </returns>
-        internal static bool TurnOffReadOnlyFlag(string file)
+        internal static bool TurnOffReadOnlyFlag(this string file)
         {
             var retValue = false;
             var attribs = File.GetAttributes(file);
@@ -79,12 +77,10 @@ namespace CleanProject
         /// <param name="file">
         ///     The file to change.
         /// </param>
-        internal static void TurnOnReadOnlyFlag(string file)
+        internal static void TurnOnReadOnlyFlag(this string file)
         {
             var attribs = File.GetAttributes(file);
             File.SetAttributes(file, attribs | FileAttributes.ReadOnly);
         }
-
-        #endregion
     }
 }

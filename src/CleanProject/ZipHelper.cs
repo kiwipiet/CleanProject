@@ -6,17 +6,17 @@ using Ionic.Zip;
 
 namespace CleanProject
 {
-    internal class ZipHelper
+    internal static class ZipHelper
     {
-        internal static void ZipDirectories(IEnumerable<SolutionInfo> directories)
+        internal static void ZipDirectories(this IEnumerable<SolutionInfo> directories)
         {
             foreach (var solutionInfo in directories)
             {
-                CreateZipFile(solutionInfo);
+                solutionInfo.CreateZipFile();
             }
         }
 
-        internal static void CreateZipFile(SolutionInfo si)
+        internal static void CreateZipFile(this SolutionInfo si)
         {
             using (var zip = new ZipFile())
             {
@@ -38,7 +38,7 @@ namespace CleanProject
                 var zipName = Path.Combine(zipDirectory, si.Name + ".zip");
                 zip.Save(zipName);
                 CommandLine.WriteLineColor(ConsoleColor.Yellow, "Created zip file {0}", zipName);
-                DirectoryHelper.Delete(si.TempPath);
+                si.TempPath.Delete();
             }
         }
     }

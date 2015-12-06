@@ -6,25 +6,15 @@ namespace CleanProject
 {
     internal class RecursiveSearchHelper
     {
-        #region Constructors and Destructors
-
         internal RecursiveSearchHelper()
         {
             fileList = new List<string>();
             excludeList = new List<string>();
         }
 
-        #endregion
-
-        #region Constants and Fields
-
         private readonly List<string> excludeList;
 
         private readonly List<string> fileList;
-
-        #endregion
-
-        #region internal Methods
 
         internal string[] GetFiles(string initialDirectory, string filePattern)
         {
@@ -61,10 +51,6 @@ namespace CleanProject
             return fileList.ToArray();
         }
 
-        #endregion
-
-        #region Methods
-
         private void Search(string initialDirectory, string filePattern)
         {
             foreach (var file in Directory.GetFiles(initialDirectory, filePattern).Where(file => !fileList.Contains(file)))
@@ -90,7 +76,5 @@ namespace CleanProject
                 SearchExclude(item, excludePattern);
             }
         }
-
-        #endregion
     }
 }

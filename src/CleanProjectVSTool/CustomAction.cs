@@ -6,8 +6,6 @@ namespace CleanProjectVSTool
 {
     public class CustomActions
     {
-        #region Public Methods
-
         [CustomAction]
         public static ActionResult AddCleanProjectTool(Session session)
         {
@@ -55,23 +53,11 @@ namespace CleanProjectVSTool
             session.Log("End RemoveCleanProjectTool");
             return ActionResult.Success;
         }
-
-        #endregion
-
-        #region Methods
-
-        #endregion
     }
 
     internal class ExternalTool
     {
-        #region Constants and Fields
-
         private const string CleanProjectSig = "CLEAN-PROJECT";
-
-        #endregion
-
-        #region Public Methods
 
         public static void Remove(RegistryKey key, int numTools)
         {
@@ -93,10 +79,6 @@ namespace CleanProjectVSTool
             key.SetValue("ToolNumKeys", numTools - 1);
         }
 
-        #endregion
-
-        #region Properties
-
         internal string Args { get; set; }
 
         internal string Command { get; set; }
@@ -108,10 +90,6 @@ namespace CleanProjectVSTool
         internal string Title { get; set; }
 
         internal long Opt { get; set; }
-
-        #endregion
-
-        #region Methods
 
         internal static ExternalTool Read(RegistryKey key, int num)
         {
@@ -129,32 +107,32 @@ namespace CleanProjectVSTool
 
         internal static string ToolArg(int num)
         {
-            return string.Format("ToolArg{0}", num);
+            return $"ToolArg{num}";
         }
 
         internal static string ToolCmd(int num)
         {
-            return string.Format("ToolCmd{0}", num);
+            return $"ToolCmd{num}";
         }
 
         internal static string ToolDir(int num)
         {
-            return string.Format("ToolDir{0}", num);
+            return $"ToolDir{num}";
         }
 
         internal static string ToolOpt(int num)
         {
-            return string.Format("ToolOpt{0}", num);
+            return $"ToolOpt{num}";
         }
 
         internal static string ToolSourceKey(int num)
         {
-            return string.Format("ToolSourceKey{0}", num);
+            return $"ToolSourceKey{num}";
         }
 
         internal static string ToolTitle(int num)
         {
-            return string.Format("ToolTitle{0}", num);
+            return $"ToolTitle{num}";
         }
 
         internal static void Write(RegistryKey key, int num, ExternalTool et)
@@ -197,7 +175,5 @@ namespace CleanProjectVSTool
             Write(key, dest, et);
             Delete(key, source);
         }
-
-        #endregion
     }
 }

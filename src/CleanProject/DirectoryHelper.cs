@@ -4,11 +4,9 @@ using System.IO;
 
 namespace CleanProject
 {
-    internal class DirectoryHelper
+    internal static class DirectoryHelper
     {
-        #region Public Methods
-
-        public static void RemoveSubDirectories(string directory, string searchPattern)
+        public static void RemoveSubDirectories(this string directory, string searchPattern)
         {
             if (!Directory.Exists(directory))
             {
@@ -22,27 +20,23 @@ namespace CleanProject
             }
         }
 
-        public static void RemoveSubDirectories(string directory, params string[] searchPatterns)
+        public static void RemoveSubDirectories(this string directory, params string[] searchPatterns)
         {
             foreach (var pattern in searchPatterns)
             {
-                RemoveSubDirectories(directory, pattern);
+                directory.RemoveSubDirectories(pattern);
             }
         }
 
-        public static void RemoveSubDirectories(string directory, IEnumerable<string> searchPatterns)
+        public static void RemoveSubDirectories(this string directory, IEnumerable<string> searchPatterns)
         {
             foreach (var pattern in searchPatterns)
             {
-                RemoveSubDirectories(directory, pattern);
+                directory.RemoveSubDirectories(pattern);
             }
         }
 
-        #endregion
-
-        #region Methods
-
-        internal static void CopyDirectory(string source, string dest, bool subdirs, bool removeIfExists)
+        internal static void CopyDirectory(this string source, string dest, bool subdirs, bool removeIfExists)
         {
             var dir = new DirectoryInfo(source);
             var dirs = dir.GetDirectories();
@@ -91,14 +85,14 @@ namespace CleanProject
             }
         }
 
-        internal static void Delete(string directory)
+        internal static void Delete(this string directory)
         {
             try
             {
                 if (Directory.Exists(directory))
                 {
                     Program.WriteVerboseMessage("Removing {0}", directory);
-                    FileHelper.DeleteFiles(directory);
+                    directory.DeleteFiles();
                     var retry = 0;
 
                     // Sometimes you encounter a directory is not empty error immediately after deleting all the files.
@@ -123,10 +117,8 @@ namespace CleanProject
             }
             catch (IOException ioException)
             {
-                throw new ApplicationException(string.Format("Error removing directory {0}: {1}", directory, ioException.Message));
+                throw new ApplicationException($"Error removing directory {directory}: {ioException.Message}");
             }
         }
-
-        #endregion
     }
 }

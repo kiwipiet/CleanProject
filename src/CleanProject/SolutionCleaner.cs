@@ -5,11 +5,9 @@ namespace CleanProject
     /// <summary>
     ///     Cleans solutions
     /// </summary>
-    internal class SolutionCleaner
+    internal static class SolutionCleaner
     {
-        #region internal Methods
-
-        internal static void CleanDirectories(IEnumerable<SolutionInfo> directories)
+        internal static void CleanDirectories(this IEnumerable<SolutionInfo> directories)
         {
             foreach (var solutionInfo in directories)
             {
@@ -17,23 +15,21 @@ namespace CleanProject
             }
         }
 
-        internal static void CleanDirectory(string directory)
+        internal static void CleanDirectory(this string directory)
         {
             // Remove standard directories
-            DirectoryHelper.RemoveSubDirectories(directory, "bin", "obj", "TestResults", "_ReSharper*");
+            directory.RemoveSubDirectories("bin", "obj", "TestResults", "_ReSharper*");
 
             // Remove directories provided on command line also
-            DirectoryHelper.RemoveSubDirectories(directory, Program.Options.RemoveDirectories);
+            directory.RemoveSubDirectories(Program.Options.RemoveDirectories);
 
-            FileHelper.DeleteFiles(directory, "*.ReSharper*", "*.suo");
-            FileHelper.DeleteFiles(directory, Program.Options.RemoveFiles);
+            directory.DeleteFiles("*.ReSharper*", "*.suo");
+            directory.DeleteFiles(Program.Options.RemoveFiles);
 
             if (Program.Options.RemoveSourceControl)
             {
                 RemoveSourceControlBindings.Clean(directory);
             }
         }
-
-        #endregion
     }
 }

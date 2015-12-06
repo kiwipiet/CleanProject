@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="c102c666-52fe-4534-a7b0-e898a0e78a02" Name="CleanProject" Language="1033" Version="1.2.0.1020"
+  <Product Id="c102c666-52fe-4534-a7b0-e898a0e78a02" Name="CleanProject" Language="1033" Version="1.2.0.1021"
            Manufacturer="Ron Jacobs" UpgradeCode="208e0350-6d90-4a4e-a015-c31397fded32">
     <Package InstallerVersion="200" Compressed="yes" />
 

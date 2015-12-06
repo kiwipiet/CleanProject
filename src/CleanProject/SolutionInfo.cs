@@ -6,8 +6,6 @@ namespace CleanProject
 {
     internal class SolutionInfo
     {
-        #region Methods
-
         private string GetTempPath()
         {
             if (string.IsNullOrWhiteSpace(Name))
@@ -20,30 +18,14 @@ namespace CleanProject
             return tempPath;
         }
 
-        #endregion
-
-        #region Constants and Fields
-
         private string tempPath;
 
-        #endregion
+        public string WorkingPath => Program.Options.ZipProject ? TempPath : Directory;
 
-        #region Properties
-
-        public string WorkingPath
-        {
-            get { return Program.Options.ZipProject ? TempPath : Directory; }
-        }
-
-        public string TempPath
-        {
-            get { return string.IsNullOrWhiteSpace(tempPath) ? GetTempPath() : tempPath; }
-        }
+        public string TempPath => string.IsNullOrWhiteSpace(tempPath) ? GetTempPath() : tempPath;
 
         internal string Directory { get; set; }
 
         internal string Name { get; private set; }
-
-        #endregion
     }
 }

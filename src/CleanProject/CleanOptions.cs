@@ -9,8 +9,6 @@ namespace CleanProject
     [CommandLineArguments(Program = "CleanProject", Title = Title, Description = Description)]
     public class CleanOptions
     {
-        #region Constructors and Destructors
-
         public CleanOptions()
         {
             Directories = new List<string>();
@@ -18,17 +16,9 @@ namespace CleanProject
             RemoveFiles = new List<string>();
         }
 
-        #endregion
-
-        #region Constants and Fields
-
         public const string Description = "Cleans binaries, test results and other debris from your project";
 
         public const string Title = "Clean Project";
-
-        #endregion
-
-        #region Properties
 
         [CommandLineParameter(Command = "D", Description = "Directory to clean (can specify more than one)", Name = "Directory")]
         public List<string> Directories { get; set; }
@@ -59,7 +49,5 @@ namespace CleanProject
 
         [CommandLineParameter(Command = "Z", Default = false, Description = "Copy clean and zip the project", Name = "Zip")]
         public bool ZipProject { get; set; }
-
-        #endregion
     }
 }
