@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/project/kiwipiet/cleanproject?svg=true)](https://ci.appveyor.com/project/kiwipiet/cleanproject)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/kiwipiet/cleanproject?svg=true)](https://ci.appveyor.com/project/kiwipiet/cleanproject)
 # CleanProject
 A copy of the code from [CleanProject - Cleans Visual Studio Solutions For Uploading or Email](https://code.msdn.microsoft.com/Clean-Cleans-Visual-Studio-a05bca4f)
 
