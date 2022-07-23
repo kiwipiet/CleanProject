@@ -11,6 +11,8 @@ How many times have you wanted to send a project to a friend or upload it to a w
   * obj folder
   * TestResults folder
   * Resharper folders
+  * Visual Studio settings folder
+
 
 And then if you forget about removing Source Control bindings whoever gets your project will be prompted about that.  As someone who does this process a great deal I decided to share with you my code for cleaning a project.
 
