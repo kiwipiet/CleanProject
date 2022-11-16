@@ -18,7 +18,7 @@ namespace CleanProject
         internal static void CleanDirectory(this string directory)
         {
             // Remove standard directories
-            directory.RemoveSubDirectories("bin", "obj", "TestResults", "_ReSharper*");
+            directory.RemoveSubDirectories("bin", "obj", "TestResults", "_ReSharper*", ".vs");
 
             // Remove directories provided on command line also
             directory.RemoveSubDirectories(Program.Options.RemoveDirectories);
